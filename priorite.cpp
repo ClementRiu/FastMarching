@@ -20,39 +20,35 @@ void FilePriorite::push(PointDist d) {
 PointDist FilePriorite::pop() {
     v[0] = v[1];
     v[1] = v.back();
-
-    cout<<v.size()<<endl;
-
     v.pop_back();
-
-    cout<<v.size()<<endl;
 
     int i = 1;
 
-    while (v[i] < v[2 * i] || v[i] < v[2 * i + 1]) {
-        if (v[i] < v[2 * i] && v[i] < v[2 * i + 1]) {
-            if (v[2 * i] < v[2 * i + 1]) {
-                swap(v[i], v[2 * i + 1]);
-
-                i = 2 * i + 1;
+    while (((v[i] < v[2 * i] || v[i] < v[2 * i + 1]) &&(2*i+1<v.size())) || ((v[i] < v[2 * i]) &&(2*i<v.size()))) {
+        if (2*i+1<v.size()){
+            if (v[i] < v[2 * i] && v[i] < v[2 * i + 1]) {
+                if (v[2 * i] < v[2 * i + 1]) {
+                    swap(v[i], v[2 * i + 1]);
+                    i =2 * i + 1;
+                }
+                else {
+                    swap(v[i], v[2 * i]);
+                    i = 2 * i;
+                }
             }
             else {
-                swap(v[i], v[2 * i]);
-
-                i = 2 * i;
+                if (v[i] < v[2 * i]) {
+                    swap(v[i], v[2 * i]);
+                    i = 2 * i;
+                }
+                else {
+                    swap(v[i], v[2 * i + 1]);
+                    i = 2 * i + 1;
+                }
             }
         }
         else {
-            if (v[i] < v[2 * i]) {
-                swap(v[i], v[2 * i]);
-
-                i = 2 * i;
-            }
-            else {
-                swap(v[i], v[2 * i + 1]);
-
-                i = 2 * i + 1;
-            }
+            swap(v[i],v[2*i]);
         }
     }
 

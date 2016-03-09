@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int n = 10;
+const int n = 27;
 
 int main() {
     srand((unsigned int) time(0));
@@ -36,7 +36,7 @@ int main() {
     cout<<Phil.v.size()<<endl;
 
 
-    for (int i=0; i<Phil.v.size(); i++) {
+    for (int i=1; i<Phil.v.size(); i++) {
         cout << Phil.v[i].dist << endl;
     }
 
