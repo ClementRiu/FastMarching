@@ -3,13 +3,42 @@
 #include <ctime>
 #include <iostream>
 
-const int n=20;
+using namespace std;
+
+const int n = 10;
 
 int main() {
-    std::srand((unsigned int)std::time(0));
-    std::vector<PointDist> v;
-    for(int i=0; i<n; i++)
-        v.push_back( PointDist(i,0, (double)i) );
-    // A completer
+    srand((unsigned int) time(0));
+    vector<PointDist> v;
+    for (int i = 0; i < n; i++) {
+        v.push_back(PointDist(i, 0, double(i)+0.5));
+    }
+
+    FilePriorite Phil;
+
+    for (int i = 0; i< n ; i++){
+        Phil.push(v[i]);
+    }
+
+    for (int i=1; i<Phil.v.size(); i++) {
+        cout << Phil.v[i].dist << endl;
+    }
+
+    cout<<""<<endl;
+    cout<<Phil.v.size()<<endl;
+    cout<<""<<endl;
+
+    PointDist dernier = Phil.pop();
+    cout<<""<<endl;
+    cout<<dernier.dist<<endl;
+    cout<<""<<endl;
+
+    cout<<Phil.v.size()<<endl;
+
+
+    for (int i=0; i<Phil.v.size(); i++) {
+        cout << Phil.v[i].dist << endl;
+    }
+
     return 0;
 }
