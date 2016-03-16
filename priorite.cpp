@@ -11,7 +11,6 @@ void FilePriorite::push(PointDist d) {
 
     while (v[i / 2] < v[i] && i / 2 > 0) {
         swap(v[i / 2], v[i]);
-
         i = i / 2;
     }
 }

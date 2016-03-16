@@ -1,20 +1,20 @@
 #include "fastMarching.h"
 #include <iostream>
 
-const int w=256, h=256;
+const int w = 256, h = 256;
 
 int main() {
-    openWindow(w,h);
-    Image<float> W(w,h);
+    openWindow(w, h);
+    Image<float> W(w, h);
     W.fill(1.0f);
     vector<PointDist> v;
     cout << "Cliquez des points origine, clic droit pour terminer" << endl;
-    PointDist p(0,0,0);
-    while(getMouse(p.j,p.i)==1) {
+    PointDist p(0, 0, 0);
+    while (getMouse(p.j, p.i) == 1) {
         v.push_back(p);
-        fillCircle(p.j,p.i,2,BLUE);
+        fillCircle(p.j, p.i, 2, BLUE);
     }
-    Image<float> D = fastMarching(W,v);
+    Image<float> D = fastMarching(W, v);
     affiche(D);
     endGraphics();
     return 0;
