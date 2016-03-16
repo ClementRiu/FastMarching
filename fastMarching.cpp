@@ -17,9 +17,21 @@ void minVoisins(const Image<float> &D, int x, int y, float &dx, float &dy) {
 }
 
 // Met a jour et renvoie la distance D(x,y) en fonction des voisins.
-float calcDistance(Image<float> &D, const Image<float> &W, int x, int y) {
-    // A completer
-    return D(x, y);
+float calcDistance(Image<float>& D, const Image<float>& W, int x, int y) {
+    float dx,dy;
+    minVoisins(D,x,y,dx,dy);
+    if (dx==INF || dy == INF){
+        D(x,y)=min(dx,dy)+W(x,y);
+    }
+    else {
+        if (2*pow(W(x,y),2)-pow(dx-dy,2)<=0){
+            D(x,y)=(dx+dy+pow(2*pow(W(x,y),2)-pow(dx-dy,2),0.5))/2;
+        }
+        else {
+            D(x,y)=min(dx,dy)+W(x,y);
+        }
+    }
+    return D(x,y);
 }
 
 // Fast Marching: carte de distance a partir des points de niv0, qui sont a
@@ -33,7 +45,7 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
     Image<bool> E(w, h);
     E.fill(false);
     FilePriorite F;
-    // A completer
+
 
     return D;
 }
