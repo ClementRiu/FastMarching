@@ -38,13 +38,37 @@ float calcDistance(Image<float>& D, const Image<float>& W, int x, int y) {
 // distance 0 par definition.
 Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) {
     const int w = W.width(), h = W.height();
-
+    PointDist point(0,0,0);
+    int i;
+    int j;
     // Initialisation
     Image<float> D(w, h);
     D.fill(INF);
     Image<bool> E(w, h);
     E.fill(false);
     FilePriorite F;
+    for (int k=1; k < (niv0.size()); k++){
+        point=niv0.back();
+        F.push(point);
+        i=point.i;
+        j=point.j;
+        D(i,j)=0;
+        E(i,j)=true;
+    }
+    while (!F.empty()){
+        point=F.pop();
+        i=point.i;
+        j=point.j;
+        for (int k=-1; k<2; k++){
+            for (int l=-1; l<2; l++) {
+                if (i+k>=0 && i+k<w){
+                    if (j+l>=0 && j+l<h){
+                        D(i+k,j+l)=
+                    }
+                }
+            }
+        }
+    }
 
 
     return D;
