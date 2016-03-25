@@ -63,14 +63,15 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
             for (int l=-1; l<2; l++) {
                 if (i+k>=0 && i+k<w){
                     if (j+l>=0 && j+l<h){
-                        D(i+k,j+l)=
+                        float Di=calcDistance(D,W,i+k,j+l);
+                        E(i+k,j+l)=true;
+                        PointDist point2(i+k,j+l,Di);
+                        F.push(point2);
                     }
                 }
             }
         }
     }
-
-
     return D;
 }
 
