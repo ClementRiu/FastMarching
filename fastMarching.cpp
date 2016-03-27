@@ -12,33 +12,41 @@ const int voisin[4][2] = {{-1, 0},
 
 // Met dans dx et dy les plus petites valeurs des voisins du pixel (x,y).
 void minVoisins(const Image<float> &D, int x, int y, float &dx, float &dy) {
-    dx = min(D(x, y + 1), D(x, y - 1));
-    dy = min(D(x + 1, y), D(x - 1, y));
+    int w=D.width();
+    int h=D.height();
+    float Dp[4];
+    for (int k=0; k<4; k++){
+        int ip= x+voisin[k][0];
+        int jp = y+voisin[k][1];
+        if (ip>=0 && ip<w && jp>=0 && jp<h){
+            Dp[k]=D(ip,jp);
+        }
+        else{
+            Dp[k]=INF;
+        }
+    }
+    dx=min(Dp[0],Dp[1]);
+    dy=min(Dp[2],Dp[3]);
 }
 
 // Met a jour et renvoie la distance D(x,y) en fonction des voisins.
 float calcDistance(Image<float>& D, const Image<float>& W, int x, int y) {
-    float dx,dy;
+    float Dxy,dx,dy;
     minVoisins(D,x,y,dx,dy);
-    if (dx==INF || dy == INF){
-        D(x,y)=min(dx,dy)+W(x,y);
+    float deter=2*pow(W(x,y),2)-pow(dx-dy,2);
+    if (dx!=INF && dy != INF && deter >=0){
+        Dxy=(dx+dy+sqrt(deter))/2.0f;
     }
     else {
-        if (2*pow(W(x,y),2)-pow(dx-dy,2)<=0){
-            D(x,y)=(dx+dy+pow(2*pow(W(x,y),2)-pow(dx-dy,2),0.5))/2;
-        }
-        else {
-            D(x,y)=min(dx,dy)+W(x,y);
-        }
+        Dxy=min(dx,dy)+W(x,y);
     }
-    return D(x,y);
+    return Dxy;
 }
 
 // Fast Marching: carte de distance a partir des points de niv0, qui sont a
 // distance 0 par definition.
 Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) {
     const int w = W.width(), h = W.height();
-    PointDist point(0,0,0);
     int i;
     int j;
     // Initialisation
@@ -47,31 +55,31 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
     Image<bool> E(w, h);
     E.fill(false);
     FilePriorite F;
-    for (int k=1; k < (niv0.size()); k++){
-        point=niv0.back();
+    for (int k=0; k < (niv0.size()); k++){
+        PointDist point=niv0[k];
         F.push(point);
         i=point.i;
         j=point.j;
         D(i,j)=0;
         E(i,j)=true;
     }
+    cout<<"Lancement de Fast_Marching..."<<endl;
     while (!F.empty()){
-        point=F.pop();
-        i=point.i;
-        j=point.j;
-        for (int k=-1; k<2; k++){
-            for (int l=-1; l<2; l++) {
-                if (i+k>=0 && i+k<w){
-                    if (j+l>=0 && j+l<h){
-                        float Di=calcDistance(D,W,i+k,j+l);
-                        E(i+k,j+l)=true;
-                        PointDist point2(i+k,j+l,Di);
-                        F.push(point2);
-                    }
+        PointDist point=F.pop();
+        for (int k=0; k<4; k++){
+            int ip= point.i+voisin[k][0];
+            int jp = point.j+voisin[k][1];
+            if (ip>=0 && ip<w && jp>=0 && jp<h){
+                if(!E(ip,jp)) {
+                    D(ip, jp) = calcDistance(D, W, ip, jp);
+                    E(ip, jp) = true;
+                    PointDist point2(ip, jp, -D(ip, jp));
+                    F.push(point2);
                 }
             }
         }
     }
+    cout << "fait !" << endl;
     return D;
 }
 
