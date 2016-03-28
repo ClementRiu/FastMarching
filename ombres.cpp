@@ -7,6 +7,7 @@ const float TOL = 0.1f; // Seuil de tolerance d'imprecision numerique
 // Selection a la souris d'un rectangle.
 bool selectionRect(int &x1, int &y1, int &x2, int &y2, const Image<Color> &I) {
     Event e;
+
     do {
         getEvent(0, e);
         if (e.type == EVT_BUT_ON) {
@@ -23,6 +24,7 @@ bool selectionRect(int &x1, int &y1, int &x2, int &y2, const Image<Color> &I) {
                      RED);
         }
     } while (e.type != EVT_BUT_OFF || abs(x1 - x2) < 5 || abs(y1 - y2) < 5);
+
     if (x1 > x2) std::swap(x1, x2);
     if (y1 > y2) std::swap(y1, y2);
     return true;
@@ -33,7 +35,7 @@ int main() {
     Image<Color> I(w, h);
     I.fill(WHITE);
 
-    cout << "Dessinez des rectangles, clic droit pour terminer" << endl;
+    cout << "Dessinez des rectangles, clic droit pour terminer." << endl;
     int x1, y1, x2, y2;
     while (selectionRect(x1, y1, x2, y2, I)) {
         for (int i = x1; i < x2; i++) {
@@ -43,7 +45,7 @@ int main() {
         }
     }
 
-    cout << "Cliquez la position de la source lumineuse" << endl;
+    cout << "Cliquez pour créer la source lumineuse." << endl;
     vector<PointDist> v;
     int x, y;
     getMouse(x, y);
@@ -79,8 +81,7 @@ int main() {
     }
     affiche(Dsans);
 
-//Ordre d'affichage un peu alambiqué, mais c'est la façon que nous avons trouvée
-//pour faire afficher l'image avec les ombres en premier
+//Ordre d'affichage un peu alambiqué, permet d'afficher l'image avec les ombres en premier
     Window W2 = openWindow(w, h);
     Window W3 = openWindow(w, h);
 
@@ -89,7 +90,6 @@ int main() {
 
     setActiveWindow(W3);
     display(I);
-
 
     endGraphics();
     return 0;

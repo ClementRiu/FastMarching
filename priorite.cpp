@@ -29,6 +29,7 @@ PointDist FilePriorite::pop() {
 
         while (((2 * i + 1 < v.size()) && (v[i] < v[2 * i] || v[i] < v[2 * i + 1])) ||
                ((2 * i < v.size()) && (v[i] < v[2 * i]))) {
+
             if (2 * i + 1 < v.size()) {
                 if (v[i] < v[2 * i] && v[i] < v[2 * i + 1]) {
                     if (v[2 * i] < v[2 * i + 1]) {
@@ -51,6 +52,7 @@ PointDist FilePriorite::pop() {
                     }
                 }
             }
+
             else {
                 swap(v[i], v[2 * i]);
             }

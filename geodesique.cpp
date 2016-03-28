@@ -18,6 +18,7 @@ bool selectionCercle(int &xc, int &yc, float &r) {
     captureWindow(cols, w, h);
     Image<Color> I(cols, w, h, true);
     Event e;
+
     do {
         getEvent(0, e);
         if (e.type == EVT_BUT_ON) {
@@ -34,10 +35,11 @@ bool selectionCercle(int &xc, int &yc, float &r) {
             drawCircle(xc, yc, (int) (r + 0.5f), GREEN);
         }
     } while (e.type != EVT_BUT_OFF || r < 3.0f);
+
     return true;
 }
 
-// Ajoute poids gaussiens a W.
+// Ajoute poids gaussien a W.
 void ajouteGaussienne(Image<float> &W, float xc, float yc, float r) {
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
@@ -52,10 +54,10 @@ vector<FloatPoint2> geodesique(const Image<float> &D,
     vector<FloatPoint2> v;
     v.push_back(p2);
     FloatPoint2 q, grad;
-    q= v.back();
-    while ((q[0]-p1[0])*(q[0]-p1[0])+(q[1]-p1[1])*(q[1]-p1[1])>=1) {
-        grad = gradient(D, Coords<2>(q[0],q[1]));
-        q+=grad*TAU/sqrt(grad[0]*grad[0]+grad[1]*grad[1]);
+    q = v.back();
+    while ((q[0] - p1[0]) * (q[0] - p1[0]) + (q[1] - p1[1]) * (q[1] - p1[1]) >= 1) {
+        grad = gradient(D, Coords<2>(q[0], q[1]));
+        q += grad * TAU / sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
         v.push_back(q);
     }
     v.push_back(p1);
@@ -79,8 +81,7 @@ int main() {
 
     affiche(W);
 
-
-    cout << "Cliquez les points de depart et d'arrivee" << endl;
+    cout << "Cliquez pour determiner les points de depart et d'arrivee" << endl;
     IntPoint2 p1, p2;
     while (getMouse(p1) == 1) {
         affiche(W);

@@ -8,12 +8,15 @@ int main() {
     Image<float> W(w, h);
     W.fill(1.0f);
     vector<PointDist> v;
+
     cout << "Cliquez des points origine, clic droit pour terminer" << endl;
     PointDist p(0, 0, 0);
+
     while (getMouse(p.i, p.j) == 1) {
         v.push_back(p);
         fillCircle(p.i, p.j, 2, BLUE);
     }
+
     cout << v.size() << endl;
     Image<float> D = fastMarching(W, v);
     affiche(D);
