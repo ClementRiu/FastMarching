@@ -17,7 +17,6 @@ int main() {
         fillCircle(p.i, p.j, 2, BLUE);
     }
 
-    cout << v.size() << endl;
     Image<float> D = fastMarching(W, v);
     affiche(D);
     endGraphics();

@@ -17,10 +17,10 @@ void minVoisins(const Image<float> &D, int x, int y, float &dx, float &dy) {
     int h = D.height();
     float Dp[4];
     for (int k = 0; k < 4; k++) {
-
+        // Permet de naviguer parmi les voisins du point.
         int ip = x + voisin[k][0];
         int jp = y + voisin[k][1];
-
+        // Vérification que le point n'est pas un coins :
         if (ip >= 0 && ip < w && jp >= 0 && jp < h) {
             Dp[k] = D(ip, jp);
         }
@@ -65,6 +65,7 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
     E.fill(false);
     FilePriorite F;
 
+    // Préparation :
     for (int k = 0; k < (niv0.size()); k++) {
         PointDist point = niv0[k];
         F.push(point);
@@ -74,15 +75,19 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
         E(i, j) = true;
     }
 
+    // Travail principal :
     cout << "Lancement de Fast_Marching..." << endl;
     while (!F.empty()) {
         PointDist point = F.pop();
 
         for (int k = 0; k < 4; k++) {
+            // On navigue sur les voisins.
             int ip = point.i + voisin[k][0];
             int jp = point.j + voisin[k][1];
 
+            // On vérifie que ceux-ci sont dans l'image :
             if (ip >= 0 && ip < w && jp >= 0 && jp < h) {
+                // Et qu'ils n'ont pas été visités :
                 if (!E(ip, jp)) {
                     D(ip, jp) = calcDistance(D, W, ip, jp);
                     E(ip, jp) = true;
