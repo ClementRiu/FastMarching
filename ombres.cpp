@@ -34,21 +34,50 @@ int main() {
     I.fill(WHITE);
 
     cout << "Dessinez des rectangles, clic droit pour terminer" << endl;
-    // A completer
+    int x1, y1, x2, y2;
+    while (selectionRect(x1,y1,x2,y2,I)){
+        for (int i=x1; i<x2;i++){
+            for (int j=y1; j<y2; j++){
+                I(i,j)=RED;
+            }
+        }
+    }
+
 
     cout << "Cliquez la position de la source lumineuse" << endl;
     vector<PointDist> v;
-    // A completer
+    int x,y;
+    getMouse(x,y);
+    while (I(x,y)==RED){
+        getMouse(x,y);
+    }
+    fillCircle(x, y, 2, GREEN);
+    PointDist p(x,y,0.f);
+    v.push_back(p);
 
     // Remplissage des cartes de cout avec et sans obstacles
     Image<float> Wavec(w,h), Wsans(w,h);
     Wavec.fill(1.0f); Wsans.fill(1.0f);
-    // A completer
+    for (int i=0; i<w;i++){
+        for (int j=0; j<h; j++){
+            if (I(i,j)==RED){
+                Wavec(i,j)=INF;
+            }
+        }
+    }
 
     cout << "Calcul" << endl;
     Image<float> Davec = fastMarching(Wavec, v);
     Image<float> Dsans = fastMarching(Wsans, v);
     // A completer
+    for (int i=0; i<w; i++){
+        for (int j=0; j<h;j++){
+            if (I(i,j)==WHITE && Davec(i,j)-Dsans(i,j)>TOL ){
+                I(i,j)==BLUE;
+            }
+        }
+    }
+    display(I);
 
     endGraphics();
     return 0;

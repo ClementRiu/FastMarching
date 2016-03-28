@@ -43,6 +43,7 @@ float calcDistance(Image<float>& D, const Image<float>& W, int x, int y) {
     return Dxy;
 }
 
+
 // Fast Marching: carte de distance a partir des points de niv0, qui sont a
 // distance 0 par definition.
 Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) {
@@ -82,6 +83,8 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
     cout << "fait !" << endl;
     return D;
 }
+
+
 
 // Affiche en couleur l'image des distances.
 // bleu=0, rouge=maximum, vert=infini

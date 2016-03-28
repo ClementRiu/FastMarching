@@ -10,10 +10,11 @@ int main() {
     vector<PointDist> v;
     cout << "Cliquez des points origine, clic droit pour terminer" << endl;
     PointDist p(0, 0, 0);
-    while (getMouse(p.j, p.i) == 1) {
+    while (getMouse(p.i, p.j) == 1) {
         v.push_back(p);
-        fillCircle(p.j, p.i, 2, BLUE);
+        fillCircle(p.i, p.j, 2, BLUE);
     }
+    cout<<v.size()<<endl;
     Image<float> D = fastMarching(W, v);
     affiche(D);
     endGraphics();
