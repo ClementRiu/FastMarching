@@ -1,6 +1,7 @@
 #include "fastMarching.h"
 #include <iostream>
 
+
 typedef FVector<float, 2> FloatPoint2; // point avec coordonnees float
 
 const int w = 512, h = 512;
@@ -49,7 +50,16 @@ void ajouteGaussienne(Image<float> &W, float xc, float yc, float r) {
 vector<FloatPoint2> geodesique(const Image<float> &D,
                                FloatPoint2 p1, FloatPoint2 p2) {
     vector<FloatPoint2> v;
-    // A completer
+    v.push_back(p2);
+    FloatPoint2 q, grad;
+    q= v.back();
+    while ((q[0]-p1[0])*(q[0]-p1[0])+(q[1]-p1[1])*(q[1]-p1[1])>=1) {
+        grad = gradient(D, Coords<2>(q[0],q[1]));
+        q+=grad*TAU/sqrt(grad[0]*grad[0]+grad[1]*grad[1]);
+        v.push_back(q);
+    }
+    v.push_back(p1);
+
     return v;
 }
 
