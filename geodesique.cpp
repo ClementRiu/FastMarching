@@ -57,7 +57,8 @@ vector<FloatPoint2> geodesique(const Image<float> &D,
     q = v.back();
     while ((q[0] - p1[0]) * (q[0] - p1[0]) + (q[1] - p1[1]) * (q[1] - p1[1]) >= 1) {
         grad = gradient(D, Coords<2>(q[0], q[1]));
-        q += grad * TAU / sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+        q[0] -= grad[0] * TAU / sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
+        q[1] -= grad[1] * TAU / sqrt(grad[0] * grad[0] + grad[1] * grad[1]);
         v.push_back(q);
     }
     v.push_back(p1);
@@ -67,8 +68,10 @@ vector<FloatPoint2> geodesique(const Image<float> &D,
 
 int main() {
     openWindow(w, h);
+    Image<float> D(w, h);
     Image<float> W(w, h);
-    W.fill(0.0f);
+    vector<FloatPoint2> v;
+    W.fill(1.0f);
 
     cout << "Placez des cercles, clic droit pour terminer" << endl;
     int xc, yc;
@@ -83,11 +86,17 @@ int main() {
 
     cout << "Cliquez pour determiner les points de depart et d'arrivee" << endl;
     IntPoint2 p1, p2;
-    while (getMouse(p1) == 1) {
-        affiche(W);
-        // A completer
+    getMouse(p2);
+    fillCircle(p2, 2, GREEN);
+    getMouse(p1);
+    fillCircle(p1, 2, GREEN);
+    vector<PointDist> niv0;
+    niv0.push_back(PointDist(p1[0], p1[1], 1.0f));
+    D = fastMarching(W, niv0);
+    v = geodesique(D, p1, p2);
+    for (int i = 0; i < v.size(); i++) {
+        drawPoint(arrondi(v[i]), BLACK);
     }
-
     endGraphics();
     return 0;
 }

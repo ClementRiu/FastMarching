@@ -79,7 +79,6 @@ Image<float> fastMarching(const Image<float> &W, const vector<PointDist> &niv0) 
     cout << "Lancement de Fast_Marching..." << endl;
     while (!F.empty()) {
         PointDist point = F.pop();
-
         for (int k = 0; k < 4; k++) {
             // On navigue sur les voisins.
             int ip = point.i + voisin[k][0];
