@@ -21,14 +21,14 @@ PointDist FilePriorite::pop() {
     v[1] = v.back();
     v.pop_back();
 
-    if (empty()){
+    if (empty()) {
         return p;
     }
     else {
         int i = 1;
 
-        while (((2 * i + 1 < v.size()) && (v[i] < v[2 * i] || v[i] < v[2 * i + 1]) ) ||
-               ( (2 * i < v.size()) && (v[i] < v[2 * i]))) {
+        while (((2 * i + 1 < v.size()) && (v[i] < v[2 * i] || v[i] < v[2 * i + 1])) ||
+               ((2 * i < v.size()) && (v[i] < v[2 * i]))) {
             if (2 * i + 1 < v.size()) {
                 if (v[i] < v[2 * i] && v[i] < v[2 * i + 1]) {
                     if (v[2 * i] < v[2 * i + 1]) {
